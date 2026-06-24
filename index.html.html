@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Tours Premium</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #081321;
+      color: white;
+      line-height: 1.6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      padding: 20px 50px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(11, 31, 58, 0.85);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #D4AF37;
+      letter-spacing: 2px;
+    }
+
+    .navbar ul { list-style: none; display: flex; gap: 25px; }
+
+    .navbar a {
+      text-decoration: none;
+      color: white;
+      transition: 0.3s;
+    }
+
+    .navbar a:hover { color: #D4AF37; }
+
+    /* Hero */
+    .hero {
+      height: 100vh;
+      background-image:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+        url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero-content h1 {
+      font-size: 80px;
+      color: #D4AF37;
+      margin-bottom: 15px;
+    }
+
+    .hero-content p {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 30px;
+      background: #D4AF37;
+      color: #081321;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 30px;
+      transition: 0.3s;
+    }
+
+    .btn:hover { transform: scale(1.05); }
+
+    /* Sections */
+    .section { padding: 100px 60px; }
+
+    .section h2 {
+      text-align: center;
+      color: #D4AF37;
+      margin-bottom: 50px;
+      font-size: 40px;
+    }
+
+    .dark-section { background: #0B1F3A; }
+
+    /* Cards */
+    .cards {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .card {
+      width: 350px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform .3s;
+      box-shadow: 0 10px 25px rgba(0,0,0,.3);
+    }
+
+    .card:hover { transform: translateY(-12px); }
+
+    .card img { width: 100%; height: 230px; object-fit: cover; }
+
+    .card h3 { color: #D4AF37; padding: 15px; }
+
+    .card p { padding: 0 15px 20px; }
+
+    /* China section */
+    .china-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .info-box {
+      background: rgba(255,255,255,0.08);
+      padding: 30px;
+      border-radius: 18px;
+    }
+
+    .info-box h3 { color: #D4AF37; margin-bottom: 15px; }
+
+    .info-box ul { padding-left: 20px; }
+
+    /* Blog */
+    .blog-card {
+      max-width: 900px;
+      margin: auto;
+      background: rgba(255,255,255,0.08);
+      padding: 40px;
+      border-radius: 20px;
+    }
+
+    .blog-card h3 { color: #D4AF37; margin-bottom: 20px; }
+
+    /* Chat */
+    .chatbox {
+      max-width: 900px;
+      margin: auto;
+      background: rgba(255,255,255,0.08);
+      padding: 40px;
+      border-radius: 20px;
+    }
+
+    .chatbox p { margin-bottom: 18px; }
+
+    /* Contact */
+    .contact-form {
+      max-width: 700px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      padding: 18px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      outline: none;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      background: rgba(255,255,255,0.18);
+    }
+
+    .contact-form textarea { height: 160px; resize: vertical; }
+
+    .contact-form button {
+      padding: 18px;
+      background: #D4AF37;
+      color: #081321;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .contact-form button:hover { background: #f0cb50; transform: scale(1.02); }
+
+    /* Toast */
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #D4AF37;
+      color: #081321;
+      padding: 16px 28px;
+      border-radius: 12px;
+      font-weight: bold;
+      z-index: 9999;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Footer */
+    footer {
+      background: #06101c;
+      text-align: center;
+      padding: 25px;
+      color: #D4AF37;
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .hero-content h1 { font-size: 48px; }
+      .hero-content p  { font-size: 20px; }
+      .navbar {
+        padding: 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .navbar ul { flex-wrap: wrap; justify-content: center; }
+      .section { padding: 80px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">WORLD TOURS</div>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#destinations">Destinations</a></li>
+        <li><a href="#china">China</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>WORLD TOURS</h1>
+      <p>Travel Around The World</p>
+      <a href="#destinations" class="btn">Explore Destinations</a>
+    </div>
+  </section>
+
+  <!-- Destinations -->
+  <section id="destinations" class="section">
+    <h2>Top Destinations</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?q=80&w=1200" alt="China">
+        <h3>China</h3>
+        <p>History, culture and amazing architecture.</p>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1431274172761-fca41d930114?q=80&w=1200" alt="France">
+        <h3>France</h3>
+        <p>Art, elegance and world-class gastronomy.</p>
+      </div>
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?q=80&w=1200" alt="Brazil">
+        <h3>Brazil</h3>
+        <p>Music, carnival and vibrant energy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- China Section -->
+  <section id="china" class="section dark-section">
+    <h2>China Experience</h2>
+    <div class="china-grid">
+      <div class="info-box">
+        <h3>Traditional Food</h3>
+        <ul>
+          <li>Peking Duck</li>
+          <li>Dim Sum</li>
+          <li>Dumplings</li>
+          <li>Fried Rice</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>Places to Visit</h3>
+        <ul>
+          <li>Forbidden City</li>
+          <li>Great Wall</li>
+          <li>Terracotta Army</li>
+          <li>Shanghai</li>
+        </ul>
+      </div>
+      <div class="info-box">
+        <h3>Culture</h3>
+        <ul>
+          <li>Respect elders</li>
+          <li>Family values</li>
+          <li>Gift traditions</li>
+          <li>Good table manners</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section id="blog" class="section">
+    <h2>Travel Blog</h2>
+    <div class="blog-card">
+      <h3>Rubén's Visit to Beijing</h3>
+      <p>
+        Rubén explored Beijing and visited the Forbidden City.
+        During the trip he discovered Chinese history,
+        culture, architecture and unforgettable landscapes.
+      </p>
+    </div>
+  </section>
+
+  <!-- Chat -->
+  <section class="section dark-section">
+    <h2>AI Travel Chat</h2>
+    <div class="chatbox">
+      <p><strong>Visitor:</strong> What are the best places to visit in China?</p>
+      <p><strong>World Tours:</strong> Great Wall, Forbidden City, Terracotta Army, Shanghai and Li River.</p>
+      <p><strong>Visitor:</strong> Why visit the Forbidden City?</p>
+      <p><strong>World Tours:</strong> It reveals imperial Chinese history and architecture.</p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <h2>Book Your Trip</h2>
+    <div class="contact-form">
+      <input type="text" id="name" placeholder="Your Name">
+      <input type="email" id="email" placeholder="Your Email">
+      <textarea id="message" placeholder="Message"></textarea>
+      <button onclick="handleSubmit()">Send</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>Created by Diana Patricia Mejia Gallego</p>
+  </footer>
+
+  <!-- Toast -->
+  <div id="toast">✓ Thank you! Your message has been sent.</div>
+
+  <script>
+    // Scroll reveal
+    const sections = document.querySelectorAll(".section");
+
+    function revealSections() {
+      const trigger = window.innerHeight * 0.85;
+      sections.forEach(section => {
+        const top = section.getBoundingClientRect().top;
+        if (top < trigger) {
+          section.style.opacity = "1";
+          section.style.transform = "translateY(0)";
+        }
+      });
+    }
+
+    sections.forEach(section => {
+      section.style.opacity = "0";
+      section.style.transform = "translateY(40px)";
+      section.style.transition = "all 0.8s ease";
+    });
+
+    window.addEventListener("scroll", revealSections);
+    revealSections();
+
+    // Card hover glow
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+      card.addEventListener("mouseenter", () => {
+        card.style.boxShadow = "0 0 35px rgba(212,175,55,0.6)";
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.boxShadow = "0 10px 25px rgba(0,0,0,.3)";
+      });
+    });
+
+    // Form submission
+    function handleSubmit() {
+      const name    = document.getElementById("name").value.trim();
+      const email   = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+
+      if (!name || !email || !message) {
+        alert("Please fill in all fields before sending.");
+        return;
+      }
+
+      // Clear fields
+      document.getElementById("name").value    = "";
+      document.getElementById("email").value   = "";
+      document.getElementById("message").value = "";
+
+      // Show toast
+      const toast = document.getElementById("toast");
+      toast.style.display = "block";
+      setTimeout(() => { toast.style.display = "none"; }, 3500);
+    }
+  </script>
+</body>
+</html>
